@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>孕期温馨相册</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fff9f4;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #d48c8c;
+    }
+    .upload-section {
+      background-color: #fff0f0;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .upload-section label,
+    .upload-section select,
+    .upload-section input {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .gallery {
+      margin-top: 30px;
+    }
+    .photo-item {
+      margin-bottom: 20px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .photo-item img {
+      width: 100%;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>孕期温馨相册</h1>
+
+  <div class="upload-section">
+    <label for="imageUpload">选择照片</label>
+    <input type="file" id="imageUpload" accept="image/*">
+
+    <label for="categorySelect">选择分类</label>
+    <select id="categorySelect">
+      <option value="孕早期">孕早期</option>
+      <option value="孕中期">孕中期</option>
+      <option value="孕晚期">孕晚期</option>
+      <option value="B超照">B超照</option>
+      <option value="宝宝用品">宝宝用品</option>
+      <option value="其他">其他</option>
+    </select>
+
+    <button onclick="handleUpload()">上传</button>
+  </div>
+
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    function handleUpload() {
+      const fileInput = document.getElementById('imageUpload');
+      const category = document.getElementById('categorySelect').value;
+      const file = fileInput.files[0];
+
+      if (!file) return alert("请先选择一张图片");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const gallery = document.getElementById('gallery');
+
+        const photoItem = document.createElement('div');
+        photoItem.className = 'photo-item';
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+
+        const timestamp = new Date().toLocaleString();
+        const caption = document.createElement('p');
+        caption.textContent = `${timestamp} - 分类：${category}`;
+
+        photoItem.appendChild(img);
+        photoItem.appendChild(caption);
+
+        gallery.prepend(photoItem);
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
